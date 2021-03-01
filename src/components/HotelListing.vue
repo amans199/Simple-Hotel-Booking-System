@@ -10,8 +10,14 @@
     </aside>
     <div class="col-md-9">
       <!-- <list-header></list-header> -->
-      <div class="p-3 border rounded mb-3">
+      <div
+        class="p-3 border rounded mb-3 d-flex flex-column flex-md-row align-items-md-center justify-content-center justify-content-md-between"
+      >
         <h2 class="mb-0">Sorters</h2>
+        <section>
+          <sort-by-name class="mr-1" />
+          <sort-by-price class="ml-1" />
+        </section>
       </div>
       <cards-list
         class="padding-cards border rounded"
@@ -23,11 +29,13 @@
 </template>
 <script>
 import CardsList from "./cards/CardsList";
+import SortByName from "./filters/SortByNameFilter";
+import SortByPrice from "./filters/SortByPriceFilter";
 const axios = require("axios").default;
 import { EventBus } from "../event-bus";
 
 export default {
-  components: { CardsList },
+  components: { CardsList, SortByName, SortByPrice },
   data() {
     return {
       cards: [],
