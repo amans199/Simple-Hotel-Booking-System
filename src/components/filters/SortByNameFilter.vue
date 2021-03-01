@@ -9,14 +9,27 @@
 </template>
 <script>
 export default {
+  props: {
+    cards: {
+      type: Array,
+    },
+  },
   data() {
     return {
       sorted: false,
+      cardsSorted: [],
     };
   },
   methods: {
     sortHandler() {
       this.sorted = !this.sorted;
+      let order = this.sorted ? -1 : 1;
+      this.cardsSorted = this.cards.sort(
+        (a, b) =>
+          order *
+          a.name.localeCompare(b.name, "en", { ignorePunctuation: true })
+      );
+      this.$emit("cardSortedByName", this.cardsSorted);
     },
   },
 };

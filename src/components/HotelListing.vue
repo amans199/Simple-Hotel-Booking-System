@@ -13,10 +13,12 @@
       <div
         class="p-3 border rounded mb-3 d-flex flex-column flex-md-row align-items-md-center justify-content-center justify-content-md-between"
       >
-        <h2 class="mb-0">Sorters</h2>
+        <p class="mb-0 font-weight-bold">
+          Total Hotels : {{ cardsFiltered.length }}
+        </p>
         <section>
-          <sort-by-name class="mr-1" />
-          <sort-by-price class="ml-1" />
+          <sort-by-name :cards="cardsFiltered" class="mr-1" />
+          <sort-by-price :cards="cardsFiltered" class="ml-1" />
         </section>
       </div>
       <cards-list
@@ -53,8 +55,9 @@ export default {
           this.cardsFiltered = response.data;
           this.loadingCards = false;
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error);
+          this.loadingCards = false;
         });
     },
     filterCardsbyDateRange(fromVal, toVal) {
@@ -75,6 +78,9 @@ export default {
     });
     EventBus.$on("ResetFilterDateRange", (value) => {
       this.cardsFiltered = this.cards;
+    });
+    this.$on("cardSortedByName", (cardsSortedArr) => {
+      this.cardsFiltered = this.cardsSortedArr;
     });
   },
 };
