@@ -11,43 +11,63 @@
     <div class="col-md-9">
       <!-- <list-header></list-header> -->
       <div class="p-3 border rounded mb-3">
-        <h2>Sorters</h2>
+        <h2 class="mb-0">Sorters</h2>
       </div>
-      <cards-list class="padding-cards border rounded" :cards="cards" />
+      <cards-list
+        class="padding-cards border rounded"
+        :cards="cardsFiltered"
+        :loadingCards="loadingCards"
+      />
     </div>
   </div>
 </template>
 <script>
 import CardsList from "./cards/CardsList";
 const axios = require("axios").default;
+import { EventBus } from "../event-bus";
 
 export default {
   components: { CardsList },
   data() {
     return {
       cards: [],
+      cardsFiltered: [],
+      loadingCards: false,
     };
   },
   methods: {
     fetchCardsHandler() {
+      this.loadingCards = true;
       axios
         .get("https://run.mocky.io/v3/90e1d920-afca-4101-8a97-9097310d7e8a")
         .then((response) => {
-          // handle success
-          console.log(response.data);
           this.cards = response.data;
+          this.cardsFiltered = response.data;
+          this.loadingCards = false;
         })
         .catch(function (error) {
-          // handle error
           console.log(error);
-        })
-        .then(function () {
-          // always executed
         });
+    },
+    filterCardsbyDateRange(fromVal, toVal) {
+      this.loadingCards = true;
+      this.cardsFiltered = this.cards.filter((card) => {
+        let CardDate = new Date(card.available_on).getTime();
+        return fromVal <= CardDate && CardDate <= toVal;
+      });
+      setTimeout(() => {
+        this.loadingCards = false;
+      }, 500);
     },
   },
   mounted() {
     this.fetchCardsHandler();
+    EventBus.$on("FilterDateRange", (start, end) => {
+      this.filterCardsbyDateRange(start, end);
+    });
+    EventBus.$on("ResetFilterDateRange", (value) => {
+      this.cardsFiltered = this.cards;
+    });
   },
 };
 </script>

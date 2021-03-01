@@ -1,7 +1,6 @@
 <template>
   <main id="app" class="my-5 container">
     <date-range-filter class="my-3" />
-    <!-- <transition name="slide"> </transition> -->
     <hotel-listing class="my-3" />
   </main>
 </template>
@@ -18,6 +17,7 @@ export default {
   },
   components: { DateRangeFilter, HotelListing },
   methods: {},
+  mounted() {},
 };
 </script>
 

@@ -24,12 +24,19 @@
           class=""
         ></b-form-datepicker>
       </section>
-      <b-button class="m-3">Show Available Rooms</b-button>
+      <b-button variant="primary" class="my-3 ml-3 mr-1" @click="searchHandler"
+        >Search</b-button
+      >
+      <b-button variant="secondary" class="my-3 mr-3 ml-1" @click="resetHandler"
+        >Reset</b-button
+      >
     </div>
   </fieldset>
 </template>
 
 <script>
+import { EventBus } from "../../event-bus";
+
 export default {
   data() {
     return {
@@ -45,18 +52,37 @@ export default {
       },
     };
   },
+  methods: {
+    searchHandler() {
+      let start = new Date(this.FilterDateFromObj.value).getTime(),
+        end = new Date(this.FilterDateToObj.value).getTime();
+
+      EventBus.$emit(
+        "FilterDateRange",
+        start ? start : 0,
+        end ? end : Infinity
+      );
+    },
+    resetHandler() {
+      EventBus.$emit("ResetFilterDateRange");
+      this.FilterDateFromObj.value = "";
+      this.FilterDateFromObj.max = "";
+      this.FilterDateToObj.value = "";
+      this.FilterDateToObj.min = "";
+    },
+  },
   watch: {
     FilterDateFromObj: {
       handler(obj) {
         this.FilterDateToObj.min = obj.value;
-        console.log(obj.value);
+        // console.log(obj.value);
       },
       deep: true,
     },
     FilterDateToObj: {
       handler(obj) {
         this.FilterDateFromObj.max = obj.value;
-        console.log(obj.value);
+        // console.log(obj.value);
       },
       deep: true,
     },
