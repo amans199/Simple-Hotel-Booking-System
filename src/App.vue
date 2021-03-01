@@ -9,10 +9,15 @@
 <script>
 import DateRangeFilter from "./components/filters/DateRangeFilter";
 import HotelListing from "./components/HotelListing";
+require("axios");
 
 export default {
   name: "App",
+  data() {
+    return {};
+  },
   components: { DateRangeFilter, HotelListing },
+  methods: {},
 };
 </script>
 
