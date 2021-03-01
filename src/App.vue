@@ -1,19 +1,19 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <main id="app" class="my-5 container">
+    <date-range-filter class="my-3" />
+    <!-- <transition name="slide"> </transition> -->
+    <hotel-listing class="my-3" />
+  </main>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import DateRangeFilter from "./components/filters/DateRangeFilter";
+import HotelListing from "./components/HotelListing";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+  components: { DateRangeFilter, HotelListing },
+};
 </script>
 
 <style lang="scss">
