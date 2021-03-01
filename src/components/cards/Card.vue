@@ -1,23 +1,22 @@
 <template>
-  <b-card
-    title="Card Title"
-    img-src="https://picsum.photos/600/300/?image=25"
-    img-alt="Image"
-    img-top
-    tag="article"
-    class="gap-1em w-50-with-gap"
-  >
-    <b-card-text>
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-    </b-card-text>
-
-    <b-button href="#" variant="primary">Go somewhere</b-button>
+  <b-card tag="article" class="gap-1em w-50-with-gap text-left">
+    <p>Name: {{ card.name }}</p>
+    <p>Price: {{ card.price }}</p>
+    <address>City: {{ card.city }}</address>
+    <p>
+      Available on:
+      <time :date="card.available_on">{{ card.available_on }}</time>
+    </p>
   </b-card>
 </template>
 <script>
 export default {
-  //
+  props: {
+    card: {
+      type: Object,
+      required: true,
+    },
+  },
 };
 </script>
 

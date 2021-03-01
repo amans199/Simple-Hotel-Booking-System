@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-wrap">
-    <card v-for="(card, index) in cards" :key="index" />
+    <card v-for="(card, index) in cards" :key="index" :card="card" />
   </div>
 </template>
 <script>
