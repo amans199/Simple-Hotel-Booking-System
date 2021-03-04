@@ -1,10 +1,19 @@
 <template>
   <div class="row">
+    <!-- 
+      in Real App i will use another approach of creating a filter mixin with all the filters that can be used to be available for the while app
+     -->
     <aside class="col-md-3 pr-md-0">
-      <div class="p-3 border rounded">
+      <div class="p-3 border rounded text-left">
         <search-filter
-          :cards="cardsFiltered"
+          :cards="cards"
           @cardsSearched="cardsSearchedHandler"
+          class="mb-4"
+        />
+        <price-range-filter
+          :cards="cardsFiltered"
+          @cardsInPriceRangeFiltered="cardsInPriceRangeHandler"
+          v-if="!loadingCards"
         />
       </div>
     </aside>
@@ -34,11 +43,18 @@ import CardsList from "./cards/CardsList";
 import SortByName from "./filters/SortByNameFilter";
 import SortByPrice from "./filters/SortByPriceFilter";
 import SearchFilter from "./filters/SearchFilter";
+import PriceRangeFilter from "./filters/PriceRangeFilter";
 const axios = require("axios").default;
 import { EventBus } from "../event-bus";
 
 export default {
-  components: { CardsList, SortByName, SortByPrice, SearchFilter },
+  components: {
+    CardsList,
+    SortByName,
+    SortByPrice,
+    SearchFilter,
+    PriceRangeFilter,
+  },
   data() {
     return {
       cards: [],
@@ -76,6 +92,9 @@ export default {
       searchVal == ""
         ? (this.cardsFiltered = this.cards)
         : (this.cardsFiltered = searchedCards);
+    },
+    cardsInPriceRangeHandler(filteredCards) {
+      this.cardsFiltered = filteredCards;
     },
   },
   mounted() {

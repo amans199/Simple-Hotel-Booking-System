@@ -1,14 +1,10 @@
 <template>
-  <div>
-    <b-form-group label="Search">
-      <b-form-input
-        v-model="searchVal"
-        placeholder="Search"
-        @input="searchHandler"
-        type="search"
-      ></b-form-input>
-    </b-form-group>
-  </div>
+  <b-form-input
+    v-model="searchVal"
+    placeholder="Search"
+    @input="searchHandler"
+    type="search"
+  ></b-form-input>
 </template>
 <script>
 export default {
