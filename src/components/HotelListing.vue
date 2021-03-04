@@ -72,15 +72,25 @@ export default {
     },
   },
   mounted() {
+    // Filter : Date Range
     this.fetchCardsHandler();
     EventBus.$on("FilterDateRange", (start, end) => {
       this.filterCardsbyDateRange(start, end);
     });
+
+    // Reset Date Range Filter
     EventBus.$on("ResetFilterDateRange", (value) => {
       this.cardsFiltered = this.cards;
     });
+
+    // Sort By Name
     this.$on("cardSortedByName", (cardsSortedArr) => {
-      this.cardsFiltered = this.cardsSortedArr;
+      this.cardsFiltered = cardsSortedArr;
+    });
+
+    // Sort By Price
+    this.$on("cardSortedByPrice", (cardsSortedArr) => {
+      this.cardsFiltered = cardsSortedArr;
     });
   },
 };
