@@ -2,14 +2,13 @@
   <div class="row">
     <aside class="col-md-3 pr-md-0">
       <div class="p-3 border rounded">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus assumenda
-        exercitationem ut labore alias excepturi sed reiciendis ipsam corporis,
-        possimus nobis molestiae, blanditiis iusto, voluptatibus culpa
-        temporibus cupiditate! Rerum, voluptatibus?s
+        <search-filter
+          :cards="cardsFiltered"
+          @cardsSearched="cardsSearchedHandler"
+        />
       </div>
     </aside>
     <div class="col-md-9">
-      <!-- <list-header></list-header> -->
       <div
         class="p-3 border rounded mb-3 d-flex flex-column flex-md-row align-items-md-center justify-content-center justify-content-md-between"
       >
@@ -25,6 +24,7 @@
         class="padding-cards border rounded"
         :cards="cardsFiltered"
         :loadingCards="loadingCards"
+        :class="loadingCards ? 'cards-container ' : ''"
       />
     </div>
   </div>
@@ -33,11 +33,12 @@
 import CardsList from "./cards/CardsList";
 import SortByName from "./filters/SortByNameFilter";
 import SortByPrice from "./filters/SortByPriceFilter";
+import SearchFilter from "./filters/SearchFilter";
 const axios = require("axios").default;
 import { EventBus } from "../event-bus";
 
 export default {
-  components: { CardsList, SortByName, SortByPrice },
+  components: { CardsList, SortByName, SortByPrice, SearchFilter },
   data() {
     return {
       cards: [],
@@ -60,6 +61,7 @@ export default {
           this.loadingCards = false;
         });
     },
+    // todo : resole the same approach as the other filters
     filterCardsbyDateRange(fromVal, toVal) {
       this.loadingCards = true;
       this.cardsFiltered = this.cards.filter((card) => {
@@ -69,6 +71,11 @@ export default {
       setTimeout(() => {
         this.loadingCards = false;
       }, 500);
+    },
+    cardsSearchedHandler(searchVal, searchedCards) {
+      searchVal == ""
+        ? (this.cardsFiltered = this.cards)
+        : (this.cardsFiltered = searchedCards);
     },
   },
   mounted() {
@@ -99,5 +106,11 @@ export default {
 <style lang="scss" scoped>
 .padding-cards {
   padding: 0.5em;
+}
+.cards-container {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
